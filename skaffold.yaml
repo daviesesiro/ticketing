@@ -17,6 +17,14 @@ build:
         manual:
           - dest: .
             src: "src/**/*.ts"
+    - image: daviesesiro/ticketing-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
 deploy:
   kubectl:
     manifests:

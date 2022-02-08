@@ -26,7 +26,7 @@ router.post(
 
     if (!existingUser) throw new BadRequestError("Invalid credentials");
 
-    if (!Password.compare(existingUser.password, password))
+    if (!(await Password.compare(existingUser.password, password)))
       throw new BadRequestError("Invalid credentials");
 
     const jsonJwt = jwt.sign(
@@ -36,7 +36,7 @@ router.post(
     );
     req.session = { jwt: jsonJwt };
 
-    res.status(201).send(existingUser);
+    res.status(200).send(existingUser);
   }
 );
 

@@ -3,22 +3,22 @@ import { app } from "../../app";
 import { Ticket } from "../../models/tickets";
 
 describe("Create new ticket", () => {
-  it("Has a route handler to /api/tickets for post requests", () => {
-    request(app)
+  it("Has a route handler to /api/tickets for post requests", async () => {
+    await request(app)
       .post("/api/tickets")
       .send({})
       .then((res) => expect(res.status).not.toEqual(404));
   });
 
-  it("Can only be access if user is signed in", () => {
-    request(app)
+  it("Can only be access if user is signed in", async () => {
+    await request(app)
       .post("/api/tickets")
       .send({})
       .then((res) => expect(res.status).toEqual(401));
   });
 
-  it("Return a status other than 401 if user is signed in", () => {
-    request(app)
+  it("Return a status other than 401 if user is signed in", async () => {
+    await request(app)
       .post("/api/tickets")
       .set("Cookie", global.signup())
       .send({})

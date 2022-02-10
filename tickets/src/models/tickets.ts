@@ -8,7 +8,7 @@ interface TicetkAttrs {
 
 const userScehma = new mongoose.Schema(
   {
-    userId: { type: mongoose.Types.ObjectId, required: true },
+    userId: { type: String, required: true },
     title: { type: String, required: true },
     price: { type: Number, required: true },
   },

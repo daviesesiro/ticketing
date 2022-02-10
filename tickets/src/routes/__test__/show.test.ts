@@ -2,8 +2,8 @@ import request from "supertest";
 import { app } from "../../app";
 
 describe("Get a ticket", () => {
-  it("Return 404 if ticket is not found", () => {
-    return request(app)
+  it("Return 404 if ticket is not found", async () => {
+    await request(app)
       .post("/api/tickets/adasdfasdfasdf")
       .send({})
       .then((res) => expect(res.status).toEqual(404));
@@ -22,7 +22,7 @@ describe("Get a ticket", () => {
     expect(createRes.body.title).toEqual(title);
     expect(createRes.body.price).toEqual(price);
 
-    return request(app)
+    await request(app)
       .get("/api/tickets/" + createRes.body.id)
       .then((res) => {
         expect(res.status).not.toEqual(404);

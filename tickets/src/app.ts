@@ -2,8 +2,10 @@ import { NotFoundError, errorHandler, currentUser } from "@de-ticketing/common";
 import cookieSession from "cookie-session";
 import express from "express";
 import "express-async-errors";
+import { indexRouter } from "./routes";
 import { createRouter } from "./routes/new";
 import { showRouter } from "./routes/show";
+import { updateRouter } from "./routes/update";
 
 export const app = express();
 
@@ -16,6 +18,8 @@ app.use(currentUser);
 
 app.use(createRouter);
 app.use(showRouter);
+app.use(indexRouter);
+app.use(updateRouter);
 
 app.all("*", async () => {
   throw new NotFoundError();

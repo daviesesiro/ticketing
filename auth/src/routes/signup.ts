@@ -1,10 +1,8 @@
+import { BadRequestError, validateRequest } from "@de-ticketing/common";
 import express, { NextFunction, Request, Response } from "express";
-import { body, validationResult } from "express-validator";
-import { BadRequestError } from "../errors/bad-request-error";
-import { RequestValidationError } from "../errors/request-validation-error";
-import { User } from "../models/user";
+import { body } from "express-validator";
 import jwt from "jsonwebtoken";
-import { validateRequest } from "../middlewares/validate-request";
+import { User } from "../models/user";
 
 const router = express.Router();
 

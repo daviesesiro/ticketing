@@ -2,7 +2,7 @@ import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/tickets";
 
-describe("Create new test", () => {
+describe("Create new ticket", () => {
   it("Has a route handler to /api/tickets for post requests", () => {
     request(app)
       .post("/api/tickets")

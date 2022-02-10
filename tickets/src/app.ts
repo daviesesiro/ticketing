@@ -3,6 +3,7 @@ import cookieSession from "cookie-session";
 import express from "express";
 import "express-async-errors";
 import { createRouter } from "./routes/new";
+import { showRouter } from "./routes/show";
 
 export const app = express();
 
@@ -14,6 +15,7 @@ app.use(
 app.use(currentUser);
 
 app.use(createRouter);
+app.use(showRouter);
 
 app.all("*", async () => {
   throw new NotFoundError();

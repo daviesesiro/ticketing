@@ -2,18 +2,17 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { app } from "./app";
 import request from "supertest";
-import { sign } from "jsonwebtoken";
 
 let mongo: MongoMemoryServer;
 
 // jest.setTimeout(20000);
 
 declare global {
-  var signup: () => string[];
+  var signup: () => Promise<string[]>;
 }
 
 beforeAll(async () => {
-  process.env.JWT_KEY = "asdf";
+  process.env.JWT_KEY = "asdfadsfasd";
   mongo = await MongoMemoryServer.create();
   const uri = mongo.getUri();
 
@@ -33,15 +32,15 @@ afterAll(async () => {
   await mongo.stop();
 });
 
-global.signup = () => {
-  const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
-    email: "test@test.com",
-  };
+global.signup = async () => {
+  const email = "test@test.com";
+  const password = "password";
 
-  const token = sign(payload, process.env.JWT_KEY!);
-  const sessionJSON = JSON.stringify({ jwt: token });
-  const base64 = Buffer.from(sessionJSON).toString("base64");
+  const response = await request(app)
+    .post("/api/users/signup")
+    .send({ email, password })
+    .expect(201);
 
-  return [`session=${base64}`];
+  const cookie = response.get("Set-Cookie");
+  return cookie;
 };

@@ -28,7 +28,7 @@ router.post(
     const user = await User.create({ email, password });
 
     const jsonJwt = jwt.sign(
-      { _id: user._id, email: user.email },
+      { id: user._id, email: user.email },
       process.env.JWT_KEY!,
       {}
     );

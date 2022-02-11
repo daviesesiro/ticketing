@@ -15,6 +15,12 @@ spec:
       containers:
         - name: client
           image: daviesesiro/ticketing-client
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service

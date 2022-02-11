@@ -5,5 +5,6 @@ export const indexRouter = express.Router();
 
 indexRouter.get("/api/tickets", async (_req: Request, res: Response) => {
   const tickets = await Ticket.find();
+
   res.send(tickets);
 });

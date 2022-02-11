@@ -7,7 +7,7 @@
     "start": "nodemon src/index.ts",
     "start2": "ts-node-dev src/index.ts",
     "test:watch": "jest --watchAll --no-cache --runInBand",
-    "test": "jest --no-cache --runInBand"
+    "test": "jest --no-cache  --runInBand"
   },
   "jest": {
     "preset": "ts-jest",

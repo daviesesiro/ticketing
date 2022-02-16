@@ -1,5 +1,6 @@
-import nats, { Message } from "node-nats-streaming";
+import nats, { Message, Stan } from "node-nats-streaming";
 import { randomBytes } from "crypto";
+import { TicketCreatedListener } from "./events/ticket-created-listener";
 console.clear();
 
 const clientId = randomBytes(4).toString("hex");
@@ -17,13 +18,7 @@ stan.on("connect", () => {
     process.exit();
   });
 
-  const opts = stan.subscriptionOptions().setManualAckMode(true);
-  stan
-    .subscribe("ticket:created", "listenerQGroup", opts)
-    .on("message", (msg: Message) => {
-      console.log(`#${msg.getSequence()} === ${msg.getData()}`);
-      msg.ack();
-    });
+  new TicketCreatedListener(stan).listen();
 });
 
 process.on("SIGINT", () => stan.close());

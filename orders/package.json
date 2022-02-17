@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.ts",
     "start2": "ts-node-dev src/index.ts",
-    "test:watch": "jest --watchAll --no-cache --runInBand",
+    "test:watch": "jest --watchAll --no-cache",
     "test": "jest --no-cache  --runInBand"
   },
   "jest": {

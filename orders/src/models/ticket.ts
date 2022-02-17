@@ -31,7 +31,7 @@ const TicketSchema = new mongoose.Schema<TicketDoc>(
 
 TicketSchema.methods.isReserved = async function () {
   const existingOrder = await Order.findOne({
-    ticket: this,
+    ticket: this._id,
     status: {
       $in: [
         OrderStatus.AwaitingPayment,

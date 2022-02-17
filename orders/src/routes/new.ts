@@ -25,11 +25,10 @@ createRouter.post(
   ],
   validateRequest,
   requireAuth,
-  currentUser,
   async (req: Request, res: Response) => {
-    const ticket = await Ticket.findById(req.params.ticketId as string);
+    const ticket = await Ticket.findById(req.body.ticketId as string);
 
-    if (!ticket) throw new BadRequestError("Ticket not found");
+    if (!ticket) throw new NotFoundError();
 
     const isReserved = await ticket.isReserved();
 
@@ -39,13 +38,13 @@ createRouter.post(
     const exp = new Date();
     exp.setSeconds(exp.getSeconds() + EXPIRATION_WINDOW_SECONDS);
 
-    const order = Order.create({
-      userId: req.currentUser!,
+    const order = await Order.create({
+      userId: req.currentUser!.id,
       expiresAt: exp,
       status: OrderStatus.Created,
       ticket,
     });
 
-    res.status(201).send(ticket);
+    res.status(201).send(order);
   }
 );

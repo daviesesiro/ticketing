@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import request from "supertest";
 import { app } from "../../app";
+import { natsWrapper } from "../../nats-wrapper";
 import { createTicket } from "./index.test";
 
 describe("Update a ticket", () => {
@@ -79,5 +80,27 @@ describe("Update a ticket", () => {
         expect(res.body.title).toEqual(title);
         expect(res.body.price).toEqual(price);
       });
+  });
+
+  it("It publishes an event", async () => {
+    const cookie = global.signup();
+
+    const res = await request(app)
+      .post("/api/tickets")
+      .set("Cookie", cookie)
+      .send({ title: "adadfasdf", price: 400 });
+
+    const title = "something cool";
+    const price = 50;
+    await request(app)
+      .put("/api/tickets/" + res.body.id)
+      .send({ price, title })
+      .set("Cookie", cookie)
+      .then((res) => {
+        expect(res.body.title).toEqual(title);
+        expect(res.body.price).toEqual(price);
+      });
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });

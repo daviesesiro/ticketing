@@ -4,7 +4,7 @@ import { sign } from "jsonwebtoken";
 
 let mongo: MongoMemoryServer;
 
-// jest.setTimeout(20000);
+jest.mock("./nats-wrapper.ts");
 
 declare global {
   var signup: () => string[];
@@ -19,6 +19,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
 
   for (const collection of collections) {

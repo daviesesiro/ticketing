@@ -1,5 +1,5 @@
 import nats from "node-nats-streaming";
-import { TicketCreatedPublish as TicketCreatedPublisher } from "./events/ticket-created-publisher";
+import { TicketCreatedPublisher } from "./events/ticket-created-publisher";
 
 const stan = nats.connect("ticketing", "abc", { url: "http://localhost:4222" });
 
@@ -14,6 +14,7 @@ stan.on("connect", async (a) => {
       title: "Concern",
       price: 400,
       id: "232323823928323",
+      userId: "",
     });
   } catch (err) {
     console.error(err);

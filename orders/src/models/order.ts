@@ -7,6 +7,8 @@ interface OrderDocs {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
+
+  version: number;
 }
 
 const orderSchema = new mongoose.Schema<OrderDocs>(
@@ -22,6 +24,8 @@ const orderSchema = new mongoose.Schema<OrderDocs>(
     ticket: { type: mongoose.Schema.Types.ObjectId, ref: "Ticket" },
   },
   {
+    optimisticConcurrency: true,
+    versionKey: "version",
     toJSON: {
       transform: (_, ret) => {
         ret.id = ret._id;

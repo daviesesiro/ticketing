@@ -44,6 +44,7 @@ updateRouter.put(
       price: ticket.price,
       title: ticket.title,
       userId: ticket.userId,
+      version: ticket.version,
     });
 
     res.send(ticket);

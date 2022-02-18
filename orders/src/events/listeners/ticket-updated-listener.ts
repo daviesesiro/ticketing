@@ -12,6 +12,17 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 
     if (!ticket) throw new Error("Ticket not found");
 
+    if (ticket.version === data.version) {
+      console.log("acknowleding updates with no changes");
+      return msg.ack(); // update was made but nothing was changed
+    }
+
+    // ticket came out of order, so we don't acknowledge it
+    if (ticket.version !== data.version - 1) {
+      console.log(`[${msg.getSequence()}] came out of order`);
+      throw new Error("Ticket not found");
+    }
+
     ticket.set({ title: data.title, price: data.price });
     await ticket.save();
 

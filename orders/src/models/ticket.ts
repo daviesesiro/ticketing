@@ -5,7 +5,7 @@ import { Order } from "./order";
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
-
+  version: number;
   /**
    * Is this ticket reserved?
    * @descriptionw True whenever the order has successfully reserved the ticket
@@ -20,6 +20,8 @@ const TicketSchema = new mongoose.Schema<TicketDoc>(
     price: { type: Number, required: true, min: 0 },
   },
   {
+    optimisticConcurrency: true,
+    versionKey: "version",
     toJSON: {
       transform: (_, ret) => {
         ret.id = ret._id;

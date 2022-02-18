@@ -51,6 +51,7 @@ createRouter.post(
       expiresAt: exp.toISOString(),
       id: order.id,
       status: order.status,
+      version: order.version,
       ticket: {
         id: order.ticket.id,
         price: order.ticket.price,

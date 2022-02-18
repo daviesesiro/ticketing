@@ -4,6 +4,7 @@ import { app } from "../../app";
 import { Order } from "../../models/order";
 import { Ticket } from "../../models/ticket";
 import { OrderStatus } from "@de-ticketing/common";
+import { natsWrapper } from "../../nats-wrapper";
 
 describe("Create new order", () => {
   it("it returns an error if ticket does not exist", async () => {
@@ -49,5 +50,16 @@ describe("Create new order", () => {
       .expect(201);
   });
 
-  it.todo("emits an order created event");
+  it("emits an order created event", async () => {
+    const ticket = await Ticket.create({ title: "Concert", price: 20 });
+
+    await request(app)
+      .post("/api/orders")
+      .send({
+        ticketId: ticket.id,
+      })
+      .set("Cookie", global.signup())
+      .expect(201);
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
 });

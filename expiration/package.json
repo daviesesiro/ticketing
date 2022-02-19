@@ -1,0 +1,37 @@
+{
+  "name": "expiration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/index.ts",
+    "start2": "ts-node-dev src/index.ts",
+    "test:watch": "jest --watchAll --no-cache --runInBand",
+    "test": "jest --no-cache  --runInBand"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/jest.setup.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  },
+  "dependencies": {
+    "@de-ticketing/common": "^1.0.9",
+    "@types/bull": "^3.15.8",
+    "bull": "^4.5.5",
+    "node-nats-streaming": "^0.3.2",
+    "nodemon": "^2.0.15",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.3"
+  }
+}

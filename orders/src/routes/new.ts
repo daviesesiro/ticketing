@@ -14,7 +14,7 @@ import { natsWrapper } from "../nats-wrapper";
 
 export const createRouter = Router();
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15mins
+const EXPIRATION_WINDOW_SECONDS = 1 * 60; // 15mins
 
 createRouter.post(
   "/api/orders",

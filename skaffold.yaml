@@ -33,6 +33,14 @@ build:
         manual:
           - dest: .
             src: "src/**/*.ts"
+    - image: daviesesiro/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "src/**/*.ts"
     - image: daviesesiro/ticketing-client
       context: client
       docker:

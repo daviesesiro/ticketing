@@ -24,11 +24,11 @@ spec:
                   name: jwt-secret
                   key: JWT_KEY
           ports:
-          - containerPort: 3000
+            - containerPort: 3000
           resources:
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "250m"
 ---
 apiVersion: v1
 kind: Service

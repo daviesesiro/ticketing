@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: orders-mongo-depl
+  name: expiration-redis-depl
 spec:
   selector:
     matchLabels:
-      app: orders-mongo
+      app: expiration-redis
   template:
     metadata:
       labels:
-        app: orders-mongo
+        app: expiration-redis
     spec:
       containers:
-        - name: orders-mongo
-          image: mongo
+        - name: expiration-redis
+          image: redis
           resources:
             limits:
               memory: "256Mi"
@@ -22,11 +22,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: orders-mongo-srv
+  name: expiration-redis-srv
 spec:
   selector:
-    app: orders-mongo
+    app: expiration-redis
   ports:
-    - port: 27017
+    - port: 6379
       name: db
-      targetPort: 27017
+      targetPort: 6379

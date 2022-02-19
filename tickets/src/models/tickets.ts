@@ -4,6 +4,7 @@ interface TicetkAttrs {
   userId: string;
   title: string;
   price: number;
+  orderId?: string;
   version: number;
 }
 
@@ -12,6 +13,7 @@ const TicketScehma = new mongoose.Schema(
     userId: { type: String, required: true },
     title: { type: String, required: true },
     price: { type: Number, required: true },
+    orderId: { type: String },
   },
   {
     optimisticConcurrency: true,

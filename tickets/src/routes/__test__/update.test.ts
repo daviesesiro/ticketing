@@ -1,8 +1,10 @@
 import { Types } from "mongoose";
 import request from "supertest";
 import { app } from "../../app";
+import { Ticket } from "../../models/tickets";
 import { natsWrapper } from "../../nats-wrapper";
 import { createTicket } from "./index.test";
+import mongoose from "mongoose";
 
 describe("Update a ticket", () => {
   it("returns a 404 if the provided ticket does not exist", async () => {
@@ -102,5 +104,28 @@ describe("Update a ticket", () => {
       });
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
+
+  it("rejects edits if ticket is reserved", async () => {
+    const cookie = global.signup();
+
+    const res = await request(app)
+      .post("/api/tickets")
+      .set("Cookie", cookie)
+      .send({ title: "adadfasdf", price: 400 });
+
+    const title = "something cool";
+    const price = 50;
+
+    const ticket = await Ticket.findById(res.body.id);
+    await ticket!
+      .set({ orderId: new mongoose.Types.ObjectId().toHexString() })
+      .save();
+
+    await request(app)
+      .put("/api/tickets/" + res.body.id)
+      .send({ price, title })
+      .set("Cookie", cookie)
+      .expect(400);
   });
 });

@@ -1,9 +1,9 @@
-name: Tests
+name: Payment Service Tests
 
 on:
   pull_request:
-    branches:
-      - master
+    paths:
+      - "payments/**"
 
 jobs:
   build:
@@ -13,4 +13,5 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests
-        run: cd payments && npm install && yarn test
+        run: cd orders && npm install && yarn test
+#  TODO change to payemts

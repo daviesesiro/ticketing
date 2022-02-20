@@ -1,7 +1,7 @@
 import { Listener, Subjects, TicketUpdatedEvent } from "@de-ticketing/common";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/ticket";
-import { queueGroupName } from "./queueGroupName";
+import { queueGroupName } from "./queue-group-name";
 
 export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
   subject = Subjects.TicketUpdated;
@@ -23,7 +23,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
       throw new Error("Ticket not found");
     }
 
-    ticket.set({ title: data.title, price: data.price });
+    ticket.set({ title: data.title, price: data.price, version: data.version });
     await ticket.save();
 
     msg.ack();

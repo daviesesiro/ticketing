@@ -1,7 +1,7 @@
 import { Listener, Subjects, TicketCreatedEvent } from "@de-ticketing/common";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/ticket";
-import { queueGroupName } from "./queueGroupName";
+import { queueGroupName } from "./queue-group-name";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
   subject = Subjects.TicketCreated;
@@ -12,7 +12,7 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     msg: Message
   ): Promise<void> {
     const { title, price, id } = data;
-    const ticket = await Ticket.create({ title, price, _id: id });
+    await Ticket.create({ title, price, _id: id });
 
     msg.ack();
   }

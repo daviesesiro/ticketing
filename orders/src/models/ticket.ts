@@ -20,7 +20,7 @@ const TicketSchema = new mongoose.Schema<TicketDoc>(
     price: { type: Number, required: true, min: 0 },
   },
   {
-    optimisticConcurrency: true,
+    // optimisticConcurrency: true,
     versionKey: "version",
     toJSON: {
       transform: (_, ret) => {
@@ -30,6 +30,13 @@ const TicketSchema = new mongoose.Schema<TicketDoc>(
     },
   }
 );
+TicketSchema.pre("save", function (done) {
+  this.$where = {
+    version: this.get("version") - 1,
+  };
+
+  done();
+});
 
 TicketSchema.methods.isReserved = async function () {
   const existingOrder = await Order.findOne({

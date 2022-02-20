@@ -47,7 +47,7 @@ createRouter.post(
       ticket,
     });
 
-    new OrderCreatedPublisher(natsWrapper.client).publish({
+    await new OrderCreatedPublisher(natsWrapper.client).publish({
       expiresAt: exp.toISOString(),
       id: order.id,
       status: order.status,

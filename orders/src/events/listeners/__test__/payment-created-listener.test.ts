@@ -1,7 +1,5 @@
-import { Ticket } from "../../../models/ticket";
 import { natsWrapper } from "../../../nats-wrapper";
-import { ExpirationCompleteListener } from "../expiration-complete-listener";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 import { Order } from "../../../models/order";
 import { OrderStatus, PaymentCreatedEvent } from "@de-ticketing/common";
 import { Message } from "node-nats-streaming";

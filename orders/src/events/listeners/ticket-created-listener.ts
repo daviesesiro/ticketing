@@ -11,9 +11,13 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     data: TicketCreatedEvent["data"],
     msg: Message
   ): Promise<void> {
-    const { title, price, id } = data;
-    await Ticket.create({ title, price, _id: id });
+    try {
+      const { title, price, id } = data;
 
-    msg.ack();
+      await Ticket.create({ title, price, _id: id });
+      msg.ack();
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

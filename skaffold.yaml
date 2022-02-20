@@ -41,6 +41,14 @@ build:
         manual:
           - dest: .
             src: "src/**/*.ts"
+    - image: daviesesiro/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "src/**/*.ts"
     - image: daviesesiro/ticketing-client
       context: client
       docker:

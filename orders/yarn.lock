@@ -294,9 +294,9 @@
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
 "@de-ticketing/common@^1.0.9":
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/@de-ticketing/common/-/common-1.0.24.tgz#f4d9e4d9dcce3e2b653a206e5717a354073b99d7"
-  integrity sha512-buM5Q4a2I9OqgZVcNKZ8/jROodpnQaKbgmbh2HMqvqiL2URrfN7af7P1cPKdkKUApwt90NX64QEuGj60uIrYCQ==
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/@de-ticketing/common/-/common-1.0.25.tgz#5c264ca9812015fbb51c8293eb313f553826771e"
+  integrity sha512-+5MiQ3ygtAdObNT6UCHDrX7weRS+mTaR7lkqhnj/e0K28LrcAk+JdumOiZYgwlK0zivb4WIuhVXtygVVuDJfIQ==
   dependencies:
     "@types/cookie-session" "^2.0.44"
     "@types/express" "^4.17.13"

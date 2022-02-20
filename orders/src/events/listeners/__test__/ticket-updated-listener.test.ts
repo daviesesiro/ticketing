@@ -1,4 +1,4 @@
-import { TicketCreatedEvent, TicketUpdatedEvent } from "@de-ticketing/common";
+import { TicketUpdatedEvent } from "@de-ticketing/common";
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../../models/ticket";

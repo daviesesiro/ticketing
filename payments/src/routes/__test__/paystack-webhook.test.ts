@@ -3,15 +3,25 @@ import { app } from "../../app";
 import crypto from "crypto";
 import mongoose from "mongoose";
 import { Payment, PaymentStatus } from "../../models/payment";
+import { OrderStatus } from "@de-ticketing/common";
+import { Order } from "../../models/order";
+import { natsWrapper } from "../../nats-wrapper";
 
 describe("paystack webhook", () => {
   it("updates payments status to paid", async () => {
     const reference = "tx_ref_" + crypto.randomBytes(10).toString("base64");
+    const order = await Order.create({
+      id: new mongoose.Types.ObjectId(),
+      status: OrderStatus.Created,
+      version: 0,
+      userId: "adsfasfasdf",
+      price: 20,
+    });
 
     await Payment.create({
       id: new mongoose.Types.ObjectId(),
       reference,
-      order: new mongoose.Types.ObjectId(),
+      order: order.id,
       status: PaymentStatus.Awaiting,
     });
 
@@ -40,5 +50,8 @@ describe("paystack webhook", () => {
     const updatedPayment = await Payment.findOne({ reference });
 
     expect(updatedPayment!.status).toEqual(PaymentStatus.paid);
+
+    // ensure payment created was published
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });

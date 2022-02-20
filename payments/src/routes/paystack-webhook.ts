@@ -1,6 +1,9 @@
 import { Request, Response, Router } from "express";
 import crypto from "crypto";
 import { Payment, PaymentStatus } from "../models/payment";
+import { PaymentCreatedPublisher } from "../events/publisehers/payment-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
+import { Order } from "../models/order";
 export const paystackWebhookRouter = Router();
 
 paystackWebhookRouter.post(
@@ -16,10 +19,16 @@ paystackWebhookRouter.post(
     if (event === "charge.success") {
       const payment = await Payment.findOne({
         reference: data.reference,
-      });
+      }).populate("order");
 
       if (payment) {
         await payment.set({ status: PaymentStatus.paid }).save();
+
+        await new PaymentCreatedPublisher(natsWrapper.client).publish({
+          orderId: payment.order.id,
+          id: payment.id,
+          reference: payment.reference,
+        });
       }
     }
 

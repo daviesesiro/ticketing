@@ -1,0 +1,38 @@
+name: Deploy Expiration Service
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "expiration/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build docker image
+        run: cd expiration && docker build -t daviesesiro/expiration .
+
+      - name: Login to docker hub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push to docker hub
+        run: docker push daviesesiro/expiration
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save ticketing
+
+      - name: Restart expiration Deployment
+        run: kubectl rollout restart deployment expiration-depl

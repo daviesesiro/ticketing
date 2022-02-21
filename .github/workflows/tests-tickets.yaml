@@ -13,4 +13,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests
-        run: cd tickets && npm install && yarn test
+        run: cd tickets && yarn install && yarn test

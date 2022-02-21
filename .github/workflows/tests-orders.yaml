@@ -1,9 +1,9 @@
-name: Tests
+name: Orders Service Tests
 
 on:
   pull_request:
-    branches:
-      - master
+    paths:
+      - "orders/**"
 
 jobs:
   build:
@@ -13,4 +13,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests
-        run: cd auth && npm install && yarn test
+        run: cd orders && npm install && yarn test

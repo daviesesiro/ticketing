@@ -1,0 +1,16 @@
+name: Auth Service Tests
+
+on:
+  pull_request:
+    paths:
+      - "auth/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: cd auth && npm install && yarn test

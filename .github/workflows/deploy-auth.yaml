@@ -1,0 +1,27 @@
+name: Deploy Auth Service
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "auth/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build docker image
+        run: cd auth && docker build -t daviesesiro/auth .
+
+      - name: Login to docker hub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push to docker hub
+        run: docker push daviesesiro/auth

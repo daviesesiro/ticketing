@@ -1,0 +1,16 @@
+name: Ticket Service Tests
+
+on:
+  pull_request:
+    paths:
+      - "tickets/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: cd tickets && npm install && yarn test

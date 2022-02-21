@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const bulidClient = ({ req }) => {
+const buildClient = ({ req }) => {
   if (typeof window === "undefined") {
     // We are on the server
 
     return axios.create({
-      baseURL:
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",
+      baseURL: "http://www.ticketing-app-prod.xyz",
       headers: req.headers,
     });
   } else {
@@ -17,4 +16,4 @@ const bulidClient = ({ req }) => {
   }
 };
 
-export default bulidClient;
+export default buildClient;

@@ -1,0 +1,26 @@
+name: Deploy Manifiest
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "infra/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save ticketing
+
+      - name: Restart Auth Deployment
+        run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-prod
